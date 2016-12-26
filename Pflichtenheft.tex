@@ -1,0 +1,123 @@
+%%%%%%% EINLEITUNG %%%%%%%
+% Das Lastenheft beschreibt das Grobkonzept eines Projektes aus sicht des Auftraggebers.
+% Es beschreibt lediglich die Basisanforderungen und geht nicht tief ins Detail.
+%
+% In dem Pflichtenheft wird daher von dem Projektbearbeiter dargelegt, 
+% wie er die Aufgabenstellung interpretiert und in welchen Schritten er im Detail
+% die Aufgabe abarbeiten möchte.
+% Das Pflichtenheft muss mit dem Auftraggeber (Betreuer) abgestimmt werden und
+% gilt danach als verbindliche Grundlage für die Bewertung der in dem Projekt erbrachten Leistungen.
+%
+%%%%%%% BENUTZUNG DIESER VORLAGE %%%%%%%
+%
+% In dieser Vorlage gibt es zu jedem Abschnitt einen Kommentar mit einer kurzen Erklärung.
+% Darunter ist stehts ein konkretes Beispiel für ein fiktives Projekt abgegeben.
+%
+% Bei der Erstellung des eignen Pflichtenheftes sollten die eingetragenen Beispiele
+% vollständig durch entsprechende Eintragungen für das eigenen Projekt ersetzt werden.
+%
+
+
+%%%%%%% PRÄAMBEL %%%%%%%
+% Dokumentenklasse
+\documentclass[ngerman,openany]{scrartcl}
+\usepackage[german]{babel}
+\usepackage[latin1]{inputenc}
+\usepackage[T1]{fontenc}
+ 
+% Pakete
+\usepackage{ae}
+\usepackage{tabularx}
+
+% Titel
+\title{Pflichtenheft \\ Minecraft-Projekt}
+\subtitle{Otto-von-Guericke Universität Magdeburg, Wintersemester 2016/17}
+\author{Erik Koltermann, Angelika Ophagen \\ Betreuer: Alexander Dockhorn
+}
+
+\date{26.12.2016}
+
+%%%%%%% DOKUMENT %%%%%%%
+\begin{document}
+\maketitle
+
+\tableofcontents
+
+\section{Projektziel}
+% Hier soll das Ziel des Projektes in eigenen Worten beschrieben werden.
+% Dabei sollte auf die Bedeutung und den Nutzen des Projektergebnisses eingegangen werden.
+Zielstellung des Softwareprojekts ist es wichtige Bestandteile autonomer Softwareagenten für die Spielumgebung Minecraft zu entwickeln. Hierbei wird auf Microsofts Malmo Plattform zurückgegriffen, welche als Schnittstellte für frei programmierbare Bots mit der Spielumgebung dient.
+\\
+Fokus des Projektes wird sein, dass ein ''Steve''-Bot in Minecraft selbständig durch Labyrinthe zu einem Ziel manövrieren. Er soll einen möglichst kurzen Weg und eine möglichst schnelle Zeit bis zur Zielfindung benötigen. Dabei soll er die Umgebung erkennen und ermitteln, welche von Interaktionsmöglichkeiten ihm geboten sind.
+Zur Erstellung einer Welt mit Labyrinth wird zusätzlich ein Generator programmiert, der dem Bot eine Umgebung schafft.
+
+\section{Anforderungen}
+% Hier sollen die Anforderungen an das Projektergebnis beschrieben werden. 
+% Es soll zwischen unbedingt erforderlichen Muss-Anforderungen und optionalen Kann-Anforderungen unterschieden werden.
+
+\begin{enumerate}
+\item Labyrinthgenerator
+\item Programm für den Bot
+\item Programm einer Versuchsanordnung zur Güteprüfung des Bot
+\item Programmteile zur Versuchsauswertung der Güteprüfung
+\end{enumerate}
+
+\subsection{Muss-Anforderungen}
+% Hier soll eine vollständige und nachprüfbare Beschreibung einer Anforderung an das Projektergebnis beschrieben werden.
+\subsubsection{Labyrinthgenerator}
+Die zu bezwingenden Labyrinthe sollen 33 x 33 groß sein und Wege von einem Minecraft-Block Breite aufweisen. Die Wände sollen zwei Blocks hoch sein und dem Bot das überspringen unmöglich machen. Es soll im Labyrinth einen kürzesten Weg zum Ziel geben, aber auch Umwege und Sackgassen.\\
+Die Koordinaten des Labyrinthes werden 0-basiert angegeben, der Ursprung ist links unten. Die Koordinaten mit den Koordinaten 0 oder 32 in x oder y bleiben frei. Die Koordinaten mit 1 oder 31 in x oder y sind die Außenmauern. Es bleibt in der Außenmauer eine Lücke bei (x,y) = (2, 1). Der Startplatz des Bot ist stets (2, 0) und seine Ausrichtung ist (0,1), wobei dies dem Blick Richtung Westen in Minecraft entspricht.
+\\
+Das Ziel soll in der Mitte sein und es soll zum nächsten Pfad so viel Abstand sein, dass nur beim Finden des Sollweges des Ziel als gefunden gilt. Bei einem Detektionsradius von ½ Minecraft-Block bedeutet dies, dass alle anderen Wegstrecken einen Abstand von einem Block zum Ziel halten müssen. Es gibt einen zentralen 9x9-Block der in der Mitte das Ziel und nur an einer anderen Koordinate keine Wand enthält, um diese Eigenschaft zu sichern.
+\\
+Der Labyrinthgenerator erzeugt nach den Regeln für diese Labyrinthe eine Anzahl von Textdateien, die kodiert das Labyrinth beschreiben. Je eine dieser Textdateien wird bei der Generierung der Minecraft-Welt eingelesen und es wird in Minecraft das entsprechende Labyrinth für den Bot aufgebaut. Die Abarbeitung mehrerer Labyrinthe soll dabei z.B. durch ein Script geschehen, das nacheinander alle erzeugten Labyrinthe in Minecraft vom gegebenen Bot abarbeiten lässt. Eine parallele Abarbeitung ist denkbar, aber noch nicht konzeptioniert.
+
+
+\subsection{Optionale Anforderungen}
+
+
+\section{Arbeitspakete}
+% Hier sollen die einzelnen Arbeitspakete, in denen das Projekt abgearbeitet werden soll beschrieben werden.
+% Für jedes Arbeitspaket muss eine Beschreibung sowie der geschätzte Arbeitsaufwand in Mannstunden angegeben werden.
+% Wird das Projekt von mehreren Personen bearbeitet, sollen jedem Arbeitspaket ein oder mehrere Zuständige Bearbeiter zugeordnet werden.
+% Zusätzlich zu den Arbeitspaketen sollen Meilensteine definiert werden. 
+% Dies sind Zeitpunkte zu denen ein Zwischenergebnis bei der Projektbearbeitung erreicht wurde und eine neue Phase beginnt.
+
+\subsection{Projektplanung}
+
+\subsection{Informationssammlung/-zusammenstellung}
+
+
+\subsection{Bedienkonzept}
+
+\subsection{Vorversuche}
+
+\subsection{Hardware-Entwurf}
+
+\subsection{Software-Entwurf}
+
+\subsection{Hardware-Aufbau}
+
+\subsection{Software-Implementierung}
+
+\subsection{Test des Gerätes}
+
+\subsection{Fehlerbehebung}
+
+\subsection{Dokumentation}
+
+\section{Meilensteine}
+% Hier sollen Meilensteine beschrieben werden.
+% Dies sind Zeitpunkte zu denen ein Zwischenergebnis bei der Projektbearbeitung erreicht wurde.
+
+\section{Projektplan}
+% Im Projektplan werden die Arbeitspakete in der realen Zeit angeordnet.
+% Direkte Abhängigkeiten zwischen ihnen werden sichtbar gemacht und 
+% 
+
+
+\subsection{Arbeitsbelastung}
+
+\end{document}
+
+
