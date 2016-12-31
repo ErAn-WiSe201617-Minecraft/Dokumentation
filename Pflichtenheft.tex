@@ -46,9 +46,9 @@
 \section{Projektziel}
 % Hier soll das Ziel des Projektes in eigenen Worten beschrieben werden.
 % Dabei sollte auf die Bedeutung und den Nutzen des Projektergebnisses eingegangen werden.
-Zielstellung des Softwareprojekts ist es wichtige Bestandteile autonomer Softwareagenten für die Spielumgebung Minecraft zu entwickeln. Hierbei wird auf Microsofts Malmo Plattform zurückgegriffen, welche als Schnittstellte für frei programmierbare Bots mit der Spielumgebung dient.
-\\
-Fokus des Projektes wird sein, dass ein ''Steve''-Bot in Minecraft selbständig durch Labyrinthe zu einem Ziel manövrieren. Er soll einen möglichst kurzen Weg und eine möglichst schnelle Zeit bis zur Zielfindung benötigen. Dabei soll er die Umgebung erkennen und ermitteln, welche von Interaktionsmöglichkeiten ihm geboten sind.
+Zielstellung des Softwareprojekts ist es wichtige Bestandteile autonomer Softwareagenten für die Spielumgebung Minecraft zu entwickeln. Hierbei wird auf Microsofts Malmo Plattform zurückgegriffen, welche als Schnittstellte für frei programmierbare Bots mit der Spielumgebung dient.\\
+
+\noindent Fokus des Projektes wird sein, dass ein ''Steve''-Bot in Minecraft selbständig durch Labyrinthe zu einem Ziel manövriert. Er soll eine möglichst schnelle Zeit - und (optional) einen möglichst kurzen Weg - bis zur Zielfindung benötigen. Dabei soll er seine Umgebung erkennen und ermitteln, welche von den vorprogrammierten Interaktionsmöglichkeiten geboten sind.
 Zur Erstellung einer Welt mit Labyrinth wird zusätzlich ein Generator programmiert, der dem Bot eine Umgebung schafft.
 
 \section{Anforderungen}
@@ -64,17 +64,53 @@ Zur Erstellung einer Welt mit Labyrinth wird zusätzlich ein Generator programmie
 
 \subsection{Muss-Anforderungen}
 % Hier soll eine vollständige und nachprüfbare Beschreibung einer Anforderung an das Projektergebnis beschrieben werden.
-\subsubsection{Labyrinthgenerator}
-Die zu bezwingenden Labyrinthe sollen 33 x 33 groß sein und Wege von einem Minecraft-Block Breite aufweisen. Die Wände sollen zwei Blocks hoch sein und dem Bot das überspringen unmöglich machen. Es soll im Labyrinth einen kürzesten Weg zum Ziel geben, aber auch Umwege und Sackgassen.\\
-Die Koordinaten des Labyrinthes werden 0-basiert angegeben, der Ursprung ist links unten. Die Koordinaten mit den Koordinaten 0 oder 32 in x oder y bleiben frei. Die Koordinaten mit 1 oder 31 in x oder y sind die Außenmauern. Es bleibt in der Außenmauer eine Lücke bei (x,y) = (2, 1). Der Startplatz des Bot ist stets (2, 0) und seine Ausrichtung ist (0,1), wobei dies dem Blick Richtung Westen in Minecraft entspricht.
-\\
-Das Ziel soll in der Mitte sein und es soll zum nächsten Pfad so viel Abstand sein, dass nur beim Finden des Sollweges des Ziel als gefunden gilt. Bei einem Detektionsradius von ½ Minecraft-Block bedeutet dies, dass alle anderen Wegstrecken einen Abstand von einem Block zum Ziel halten müssen. Es gibt einen zentralen 9x9-Block der in der Mitte das Ziel und nur an einer anderen Koordinate keine Wand enthält, um diese Eigenschaft zu sichern.
-\\
-Der Labyrinthgenerator erzeugt nach den Regeln für diese Labyrinthe eine Anzahl von Textdateien, die kodiert das Labyrinth beschreiben. Je eine dieser Textdateien wird bei der Generierung der Minecraft-Welt eingelesen und es wird in Minecraft das entsprechende Labyrinth für den Bot aufgebaut. Die Abarbeitung mehrerer Labyrinthe soll dabei z.B. durch ein Script geschehen, das nacheinander alle erzeugten Labyrinthe in Minecraft vom gegebenen Bot abarbeiten lässt. Eine parallele Abarbeitung ist denkbar, aber noch nicht konzeptioniert.
 
+\subsubsection{Labyrinthgenerator}
+Die zu bezwingenden Labyrinthe sollen 33 x 33 groß sein und Wege von einem Minecraft-Block Breite aufweisen. Die Wände sollen zwei Blocks hoch sein und dem Bot das Überspringen unmöglich machen. Es soll im Labyrinth einen kürzesten Weg zum Ziel geben, aber auch Umwege und Sackgassen.\\
+
+\noindent Die Koordinaten des Labyrinthes werden 0-basiert angegeben, der Ursprung ist links unten. Die Koordinaten mit den Koordinaten 0 oder 32 in x oder y bleiben frei. Die Koordinaten mit 1 oder 31 in x oder y sind die Außenmauern. Es bleibt in der Außenmauer eine Lücke bei (x,y) = (2,1). Der Startplatz des Bot ist stets (2,0) und seine Ausrichtung ist (0,1), wobei dies dem Blick Richtung Westen in Minecraft entspricht.\\
+
+\noindent Das Ziel soll in der Mitte sein und es soll zum nächsten Pfad so viel Abstand sein, dass nur beim Finden des Sollweges das Ziel als gefunden gilt. Bei einem Detektionsradius von ½ Minecraft-Block bedeutet dies, dass alle anderen Wegstrecken einen Abstand von einem Block zum Ziel halten müssen. Es gibt einen zentralen 9x9-Block der in der Mitte das Ziel und nur an einer anderen Koordinate keine Wand enthält, um diese Eigenschaft zu sichern.\\
+
+\noindent Der Labyrinthgenerator erzeugt nach den Regeln für diese Labyrinthe eine Anzahl von Textdateien, die kodiert das Labyrinth beschreiben. 
+
+\subsubsection{Programm für den Bot}
+
+Der Bot ist nicht lernend, sondern fest programmiert und wird zur Verbesserung händisch abgeändert. Es gibt also Bot-Versionen, die miteinander konkurrieren.\\
+
+\noindent Der Bot basiert auf der Auswertung begrenzter Kenntnisse der Umgebung - und (optional) begrenztem Gedächtnis. Er soll mit diesen begrenzten Mitteln den Weg zum Ziel möglichst schnell und genau finden. Es gilt, mit den Begrenzungen und Gewichtungen für die Entscheidungen zu spielen und so den Bot zu verbessern.\\
+
+\noindent Die Ausgaben des Bot-Programmes ermöglichen die Auswertung des genommenen Weges und der benötigten Zeit des Bots im Labyrinth. Erreicht der Bot das Ziel nicht bevor eine bestimmt Höchstlaufdauer erreicht ist, wird auch dies für die Auswertung festgehalten.\\
+
+\noindent Die Ausgabe wird in Form von Textdateien gespeichert. Diese sind im Nachhinein einem Labyrinth, einem Bot und einem Versuch zuzuordnen, weil entsprechende Informationen erzeugt werden. Die Meta-Informationen zum Versuch werden in der Auswertung festgehalten und korrespondieren zu Versuchsablaufdaten, welche von dem die Versuchsreihe steuernden Skript angelegt werden.
+
+\subsubsection{Versuchsanordnung zur Güteprüfung des Bots}
+
+Je eine der Textdateien aus dem Labyrinthgenerator wird bei der Generierung der Minecraft-Welt eingelesen und es wird in Minecraft das entsprechende Labyrinth für den Bot aufgebaut. Im folgenden hat die gegebene Bot-Version eine feste Höchstzeit, um das Labyrinth zu meistern.\\
+
+\noindent Die Abarbeitung mehrerer Labyrinthe nacheinander soll dabei durch ein Kommandozeilen-Skript geschehen, das alle erzeugten Labyrinthe in Minecraft von der gegebenen Bot-Version befahren lässt. Vorgesehen ist, ohne weitere menschliche Eingriffe die Auswertung des Bots auf vielen Labyrinthen sequentiell durchzuführen und im Anschluss die Protokolle auszuwerten. Bisher ist geplant, einen Versuch nach dem anderen automatisiert zu starten. Eine parallele Abarbeitung ist optional und nicht konzipiert.\\
+
+\noindent Die Güte der erreichten Zeit ist direkt vergleichbar zwischen den Bots. Es kann entweder der Mittelwert der Zeiten über alle Labyrinthe oder direkt die Zeit pro gemeistertem Labyrinth vergleichen werden. Die Ausgaben des Bot-Programmes sollen diese Auswertungen ermöglichen.
+
+\subsubsection{Programmteile zur Versuchsauswertung der Güteprüfung}
+
+Die im Versuch gesammelten Daten sollen zur Auswertung aufbereitet werden. Programmteile, die aus den Daten Grafiken anfertigen oder statistische Auswertungen darauf machen, können z.B. in Matlab oder R programmiert werden. Die Ausgabe der Daten soll dem Rechnung tragen, die Ausgabedaten sollen also automatisiert auswertbar sein, ein Format ist noch festzulegen, CSV oder ARFF beispielsweise.
 
 \subsection{Optionale Anforderungen}
 
+\subsubsection{Labyrinthgenerator}
+
+Eine parallele Abarbeitung der mit dem Labyrinthgenerator generierten Labyrinthe ist denkbar, aber nicht konzeptioniert; sie würde den Versuchsablauf womöglich signifikant beschleunigen.
+
+\subsubsection{Programm für den Bot}
+
+Der Bot benötigt mindestens begrenzte Kenntnis von seiner Umgebung, um Entscheidungen über seine nächsten Schritte machen zu können. Optional kommen hinzu eine Planung der Route über begrenzte Bewegungen, ein Gedächtnis über eine begrenzte Anzahl bereits besuchter Felder des Labyrinths, z.B. auch mit einem Vergessen vor längerer Zeit besuchter Felder, oder auch eine Kombination weniger starker Ausprägungen dieser Fähigkeiten. Der Bot soll eingeschränkt sein und trotzdem gut funktionieren, darum darf er nicht alles sehen, sich merken oder vorausplanen dürfen.
+
+\subsubsection{Versuchsanordnung zur Güteprüfung des Bots}
+
+Die Güte des Weges kann nur an der benötigten Zeit oder auch mit Malus für Umwege gemessen werden. Als Maß für die Genauigkeit gilt der kürzeste Weg, den ein korrekter A*-Algorithmus auf dem entsprechenden Labyrinth ermittelt. Dieser Weg kann pro Labyrinth vorbereitet und gespeichert sein.\\
+
+\noindent Möglich wäre auch die Realisierung des A*-Algorithmus als Bot. Ein Vorteil hiervon wäre die Möglichkeit, auch den Labyrinthgenerator zu testen, denn falls der A*-Algorithmus keinen Weg zum Ziel findet, ist das Labyrinth nicht lösbar.
 
 \section{Arbeitspakete}
 % Hier sollen die einzelnen Arbeitspakete, in denen das Projekt abgearbeitet werden soll beschrieben werden.
@@ -86,7 +122,6 @@ Der Labyrinthgenerator erzeugt nach den Regeln für diese Labyrinthe eine Anzahl 
 \subsection{Projektplanung}
 
 \subsection{Informationssammlung/-zusammenstellung}
-
 
 \subsection{Bedienkonzept}
 
